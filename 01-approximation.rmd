@@ -1,18 +1,23 @@
 Approximation
 
+I start with n=100, t=0 as my first approximation by using the following code.
 
 ```{r}
 j <- 0
 x <- rnorm(100)
+#generating 100 N(0,1) numbers randomly, n=100
 for (i in 1:100) {
   if (x[i]<=0){
+#setting t=0
     j=j+1
   }else{
     j=j
   }
   
 }
-print((j/10000))
+y <- j/100
+print(y)
 
 ```
 
+Here my first output is one approximated value of P(x<=0) in N(0,1) given n=100. Similarly, I get in total 27 approximated value for every combination of t and n by replacement of t and n. And the following table is the comparison between the true value of P(x<=t) and the approximated one.

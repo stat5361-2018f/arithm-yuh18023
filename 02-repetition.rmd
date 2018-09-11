@@ -1,1 +1,18 @@
 "repetition" 
+
+```{r}
+x <- matrix(rnorm(10000),100,100)
+for (n in 1:100) {
+  j <- 0
+  for (m in 1:100) {
+  if(x[n,m]<=0){
+    j=j+1
+  }else{
+    j=j
+  }
+  
+  }
+  y <- mean(j/100)
+}
+```
+
