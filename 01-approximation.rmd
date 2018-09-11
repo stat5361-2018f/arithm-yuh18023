@@ -1,1 +1,18 @@
-"approximation" 
+Approximation
+
+
+```{r}
+j <- 0
+x <- rnorm(100)
+for (i in 1:100) {
+  if (x[i]<=0){
+    j=j+1
+  }else{
+    j=j
+  }
+  
+}
+print((j/10000))
+
+```
+
