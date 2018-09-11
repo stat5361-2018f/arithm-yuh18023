@@ -1,0 +1,13 @@
+Stat 5361: Exercise 2
+Yuance He
+09/10/2018
+
+1. approximation of CDF of N(0,1)
+  a) Code chunk
+  b) Comparison table
+
+2. Repetition of experiment
+  a) Code chunk
+  b) Box plots of bias
+
+3. Conclusion
