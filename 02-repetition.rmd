@@ -1,4 +1,6 @@
-"repetition" 
+Repetition of the experiment
+
+After taking single approximation, two questions come up to my mind: due to different n, which estimation model is the most precise one? Does t have influence on the veracity of experiment? Therefore, I repeat the whole experiment 100 times in order to analyze the bias of estimation starting at n=100,t=0 by using the following code:
 
 ```{r}
 x <- matrix(rnorm(10000),100,100)
@@ -12,7 +14,9 @@ for (n in 1:100) {
   }
   
   }
-  y <- mean(j/100)
+  bias <- mean(j/100)-pnorm(0)
 }
+bias
 ```
+
 

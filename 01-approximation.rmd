@@ -1,6 +1,6 @@
 Approximation
 
-I start with n=100, t=0 as my first approximation by using the following code.
+I start with n=100, t=0 as my first approximation by using the following code:
 
 ```{r}
 j <- 0
@@ -16,8 +16,18 @@ for (i in 1:100) {
   
 }
 y <- j/100
-print(y)
 
 ```
 
-Here my first output is one approximated value of P(x<=0) in N(0,1) given n=100. Similarly, I get in total 27 approximated value for every combination of t and n by replacement of t and n. And the following table is the comparison between the true value of P(x<=t) and the approximated one.
+Here my first output 0.46 is one approximated value of P(x<=0) in N(0,1) given n=100. Similarly, I get in total 27 approximated value for every combination of t and n by replacement of t and n. And the following table is the comparison between the true value of P(x<=t) and the approximated one.
+
+     t n..100 n..1000 n..10000      True
+1 0.00   0.46   0.520   0.5015 0.5000000
+2 0.67   0.81   0.741   0.7500 0.7485711
+3 0.84   0.84   0.801   0.7957 0.7995458
+4 1.28   0.91   0.900   0.9026 0.8997274
+5 1.65   0.97   0.948   0.9505 0.9505285
+6 2.32   0.97   0.989   0.9885 0.9898296
+7 2.58   0.99   0.995   0.9934 0.9950600
+8 3.09   1.00   1.000   0.9995 0.9989992
+9 3.72   1.00   1.000   1.0000 0.9999004
