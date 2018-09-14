@@ -69,44 +69,47 @@ After taking single approximation, two questions come up to my mind: due to diff
 
 
 ```{r}
-x <- matrix(rnorm(10000),nrow=100,ncol=100)
+er <- function(n,t){
+  x <- matrix(rnorm(100*n),nrow=100,ncol=n)
 b <- array()
-for (n in 1:100) {
+for (l in 1:100) {
   j <- 0
-  for (m in 1:100) {  #n=100
-    if(x[n,m]<=0){    #t=0
+  for (m in 1:n) {  
+    if(x[l,m]<=t){    
       j=j+1
     }else{
       j=j
     }
   }
-  b[n] <- j
+  b[l] <- j
 }
-bias <- mean(b)/100-pnorm(0) #n=100
+error <- b/n-pnorm(t) 
+return(error)
+}
 ```
 
 
-Now after taking mean of 100 approximation value, I easily obtain the bias of of P(x<=0) in N(0,1) given n=100. Similarly, I get in total 27 bias for every combination of t and n by replacement of t and n. And the following is the plots of bias of all t at different n:
+Now after taking 100 approximation errors at t=0, n=100, similarly I get all the errors for every combination of t and n by replacement of t and n. And the following is the plots of errors of all t at different n:
 
 
 ```{r}
 t <- c(0.0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72)
-bias1 <- c(-0.0047, -0.001871105, -0.003345807, 0.001172568, 0.002771468, 
-           -0.0007295613, 4.001576e-05, -0.0002992175, -0.0001003886)
-
-bias2 <- c(0.00106, 0.0001688951, -2.580674e-05, -0.000207432, -0.000558532, 
-           -0.0003795613, 5.001576e-05, 4.078248e-05, 2.961139e-05)
-
-bias3 <- c(0.000573, 0.0003478951, 0.0003941933, 4.356795e-05, 0.000270468, 
-           1.043867e-05, 5.501576e-05, -4.821752e-05, 1.611389e-06)
-
-boxplot(bias1 ~ t, xlab="t", ylab="Bias", main="n=100")
-boxplot(bias2 ~ t, xlab="t", ylab="Bias", main="n=1000")
-boxplot(bias3 ~ t, xlab="t", ylab="Bias", main="n=10000")
+list1 <- c(er(100,t[1]), er(100,t[2]), er(100,t[3]), er(100,t[4]),
+              er(100,t[5]), er(100,t[6]), er(100,t[7]), er(100,t[8]), er(100,t[9]))
+list2 <- c(er(1000,t[1]), er(1000,t[2]), er(1000,t[3]), er(1000,t[4]),
+              er(1000,t[5]), er(1000,t[6]), er(1000,t[7]), er(1000,t[8]), er(1000,t[9]))
+list3 <-c(er(10000,t[1]), er(10000,t[2]), er(10000,t[3]), er(10000,t[4]),
+        er(10000,t[5]), er(10000,t[6]), er(10000,t[7]), er(10000,t[8]), er(10000,t[9])) 
+df1 <- data.frame(rep(t,each=100), list1 )
+df2 <- data.frame(rep(t,each=100), list2 )
+df3 <- data.frame(rep(t,each=100), list3 )
+boxplot(list1~rep(t,each=100),xlab="t", ylab="error", main="n=100")
+boxplot(list2~rep(t,each=100),xlab="t", ylab="error", main="n=1000")
+boxplot(list3~rep(t,each=100),xlab="t", ylab="error", main="n=10000")
 ```
 
 
 # Result
 
 
-From the box plots of bias and all t under different n, I can conclude that the model's veracity is increasing when data size n is increasing, and the more extreme t value we take, the less scale of bias is.
+From the box plots of errors and all t under different n, I can conclude that the model's veracity is increasing when data size n is increasing, and the more extreme t value we take, the less scale of error is.
