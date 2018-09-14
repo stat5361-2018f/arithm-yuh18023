@@ -1,0 +1,113 @@
+---
+title: "Approximation of the CDF of Normal Distribution"
+author:
+  - Yuance He
+date: "09/13/2018"
+documentclass: article
+papersize: letter
+fontsize: 11pt
+
+output: pdf_document
+abstract: |
+    This presentation report is the whole analysis process of Monte Carlo method         approximation of normal distribution, which contains comparison table and bias plots so that we can test the veracity of estimation.
+---
+
+
+# First Approximation {#sec:appro}
+
+The model I use is the Monte Carlo's model which is
+\begin{align}
+    \widehat \Psi(t)=\frac{1}{n}\sum_{i=1}^n I(X_i \leq t),
+\end{align} 
+I start with n=100, t=0 as my first approximation by using the following code:
+
+
+```{r}
+j <- 0
+x <- rnorm(100)
+#generating 100 N(0,1) numbers randomly, n=100
+for (i in 1:100) {
+  if (x[i]<=0){
+#setting t=0
+    j=j+1
+  }else{
+    j=j
+  }
+  
+}
+y <- j/100
+
+```
+
+
+
+Here my first output 0.46 is one approximated value of P(x<=0) in N(0,1) given n=100. Similarly, I get in total 27 approximated value for every combination of t and n by replacement of t and n. And the following table is the comparison between the true value of P(x<=t) and the approximated one.
+
+
+
+```{r}
+#Collecting data in form of matrix
+df <- matrix(nrow = 9, ncol = 5)
+colnames(df) <- c("t", "n=100", "n=1000", "n=10000", "True Value")
+t <- c(0.0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72)
+df[,1] <- t
+df[,2] <- c(0.46, 0.81, 0.84, 0.91, 0.97, 0.97, 0.99, 1, 1)
+df[,3] <- c(0.52, 0.741, 0.801, 0.9, 0.948, 0.989, 0.995, 1, 1)
+df[,4] <- c(0.5015, 0.75, 0.7957, 0.9026, 0.9505, 0.9885, 0.9934, 0.9995, 1)
+df[,5] <- c(pnorm(t))
+
+#Building table
+knitr::kable(df, booktabs = TRUE,
+             caption = 'Comparison')
+```
+
+
+
+# Repetition of the experiment {#sec:repet}
+
+After taking single approximation, two questions come up to my mind: due to different n, which estimation model is the most precise one? Does t have influence on the veracity of experiment? Therefore, I repeat the whole experiment 100 times in order to analyze the bias of estimation starting at n=100,t=0 by using the following code:
+
+
+```{r}
+x <- matrix(rnorm(10000),nrow=100,ncol=100)
+b <- array()
+for (n in 1:100) {
+  j <- 0
+  for (m in 1:100) {  #n=100
+    if(x[n,m]<=0){    #t=0
+      j=j+1
+    }else{
+      j=j
+    }
+  }
+  b[n] <- j
+}
+bias <- mean(b)/100-pnorm(0) #n=100
+```
+
+
+Now after taking mean of 100 approximation value, I easily obtain the bias of of P(x<=0) in N(0,1) given n=100. Similarly, I get in total 27 bias for every combination of t and n by replacement of t and n. And the following is the plots of bias of all t at different n:
+
+
+```{r}
+t <- c(0.0,0.67,0.84,1.28,1.65,2.32,2.58,3.09,3.72)
+bias1 <- c(-0.0047, -0.001871105, -0.003345807, 0.001172568, 0.002771468, 
+           -0.0007295613, 4.001576e-05, -0.0002992175, -0.0001003886)
+
+bias2 <- c(0.00106, 0.0001688951, -2.580674e-05, -0.000207432, -0.000558532, 
+           -0.0003795613, 5.001576e-05, 4.078248e-05, 2.961139e-05)
+
+bias3 <- c(0.000573, 0.0003478951, 0.0003941933, 4.356795e-05, 0.000270468, 
+           1.043867e-05, 5.501576e-05, -4.821752e-05, 1.611389e-06)
+
+boxplot(bias1 ~ t, xlab="t", ylab="Bias", main="n=100")
+boxplot(bias2 ~ t, xlab="t", ylab="Bias", main="n=1000")
+boxplot(bias3 ~ t, xlab="t", ylab="Bias", main="n=10000")
+```
+
+
+# Result
+
+
+From the box plots of bias and all t under different n, I can conclude that the model's veracity is increasing when data size n is increasing, and the more extreme t value we take, the less scale of bias is.
+
