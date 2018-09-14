@@ -1,0 +1,35 @@
+---
+title: "Explanation of .Machine"
+author:
+  - Yuance He
+date: "09/13/2018"
+documentclass: article
+papersize: letter
+fontsize: 11pt
+
+output: pdf_document
+---
+
+".Machine$double.xmax" is the largest finite floating-point number, which equals to 1.797693e+308. Using the 64-bit double precision floating point arithmetic, it is defined as
+```{r}
++2^1023*(1+(1-2^-52))
+```
+
+
+".Machine$double.xmin" is the smallest non-zero normalized floating-point number, which equals to 2.225074e-308. Using the 64-bit double precision floating point arithmetic, it is defined as 
+```{r}
++2^(-1022)*1
+```
+
+
+".Machine$double.eps" is the smallest positive floating-point number x such that 1 + x!= 1, which equals to 2.220446e-16. Using the 64-bit double precision floating point arithmetic, it is defined as
+```{r}
+2^(-52)
+```
+
+
+".Machine$double.neg.eps" is a small positive floating-point number x such that 1 - x!= 1 which equals to 1.110223e-16. Using the 64-bit double precision floating point arithmetic, it is defined as 
+```{r}
+2^(-53)
+```
+

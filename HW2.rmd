@@ -110,4 +110,3 @@ boxplot(bias3 ~ t, xlab="t", ylab="Bias", main="n=10000")
 
 
 From the box plots of bias and all t under different n, I can conclude that the model's veracity is increasing when data size n is increasing, and the more extreme t value we take, the less scale of bias is.
-
